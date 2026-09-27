@@ -1,0 +1,4 @@
+llm:
+  api_type: ollama
+  base_url: http://localhost:11434/api
+  model: deepseek-r1:8b

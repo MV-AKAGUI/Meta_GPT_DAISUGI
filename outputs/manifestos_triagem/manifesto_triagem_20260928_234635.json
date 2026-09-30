@@ -1,0 +1,123 @@
+{
+  "batch_id": "20260928_234635",
+  "total_arquivos": 6,
+  "data_execucao": "2026-09-28T23:46:35.839330",
+  "processados": [
+    {
+      "timestamp": "2026-09-28T23:46:35.863079",
+      "nome_original": "extrato_itau_maio_2024.txt",
+      "nome_destino": "2026-09_extratos_extrato_itau_maio_2024.txt",
+      "caminho_origem": "G:\\Meu Drive\\Only_Guillmon_Prest_de_Contas\\00_Documentos_In_Natura\\extrato_itau_maio_2024.txt",
+      "caminho_destino": "G:\\Meu Drive\\Only_Guillmon_Prest_de_Contas\\02_Extratos_Bancarios\\2026-09_extratos_extrato_itau_maio_2024.txt",
+      "categoria": "extratos",
+      "confianca": 1.0,
+      "score": 16.9,
+      "sha256": "2bb182ab1b6f0ca89ec7d5f2ff1298e7cc3b895754661db04bcf9028c84b5077",
+      "tamanho_bytes": 144,
+      "evidencias": [
+        "filename_keyword:extrato",
+        "pattern:\\bextrato\\s+(mensal|de\\s+conta|banc[aá]rio)\\b",
+        "pattern:\\bsaldo\\s+(anterior|atual|dispon[ií]vel|bloqueado)\\b",
+        "pattern:\\bbanco\\s+(itau|itaú|bradesco|santander|brasil|caixa|inter|nubank)\\b",
+        "keyword:extrato(1)",
+        "keyword:conta corrente(1)",
+        "keyword:pix recebido(1)",
+        "keyword:ted enviada(1)"
+      ]
+    },
+    {
+      "timestamp": "2026-09-28T23:46:35.888293",
+      "nome_original": "ata_ago_abril_2024.txt",
+      "nome_destino": "2026-09_atas_ata_ago_abril_2024.txt",
+      "caminho_origem": "G:\\Meu Drive\\Only_Guillmon_Prest_de_Contas\\00_Documentos_In_Natura\\ata_ago_abril_2024.txt",
+      "caminho_destino": "G:\\Meu Drive\\Only_Guillmon_Prest_de_Contas\\01_Atas_e_Assembleias\\2026-09_atas_ata_ago_abril_2024.txt",
+      "categoria": "atas",
+      "confianca": 1.0,
+      "score": 16.8,
+      "sha256": "4c1444b82252d182ceac0057d90a3c2acd84f2a1db539755a321b041ec1cb498",
+      "tamanho_bytes": 139,
+      "evidencias": [
+        "filename_keyword:ata",
+        "pattern:\\bassembleia\\s+geral\\s+ordin[aá]ria\\b",
+        "pattern:\\bedital\\s+de\\s+convoca[cç][aã]o\\b",
+        "pattern:\\belei[cç][aã]o\\s+de\\s+s[ií]ndico\\b",
+        "pattern:\\bconselho\\s+fiscal\\b",
+        "pattern:\\bqu[oó]rum\\s+de\\s+aprova[cç][aã]o\\b",
+        "keyword:assembleia(1)",
+        "keyword:ata(1)"
+      ]
+    },
+    {
+      "timestamp": "2026-09-28T23:46:35.908703",
+      "nome_original": "danfe_prestador_elevador.txt",
+      "nome_destino": "2026-09_notas_fiscais_danfe_prestador_elevador.txt",
+      "caminho_origem": "G:\\Meu Drive\\Only_Guillmon_Prest_de_Contas\\00_Documentos_In_Natura\\danfe_prestador_elevador.txt",
+      "caminho_destino": "G:\\Meu Drive\\Only_Guillmon_Prest_de_Contas\\03_Notas_Fiscais_e_Recibos\\2026-09_notas_fiscais_danfe_prestador_elevador.txt",
+      "categoria": "notas_fiscais",
+      "confianca": 0.99,
+      "score": 14.85,
+      "sha256": "e075eebc363cd07aee045e5590dde39b379e2296505a8f0b7369b2d96b827d83",
+      "tamanho_bytes": 146,
+      "evidencias": [
+        "filename_keyword:danfe",
+        "filename_keyword:nfe",
+        "pattern:\\bdanfe\\b",
+        "pattern:\\bdocumento\\s+auxiliar\\s+da\\s+nota\\s+fiscal\\b",
+        "pattern:\\bcnpj\\s+do\\s+prestador\\b",
+        "keyword:danfe(1)",
+        "keyword:nfe(1)",
+        "keyword:nota fiscal(1)"
+      ]
+    },
+    {
+      "timestamp": "2026-09-28T23:46:35.929500",
+      "nome_original": "convencao_only_guillmon.txt",
+      "nome_destino": "2026-09_convencao_convencao_only_guillmon.txt",
+      "caminho_origem": "G:\\Meu Drive\\Only_Guillmon_Prest_de_Contas\\00_Documentos_In_Natura\\convencao_only_guillmon.txt",
+      "caminho_destino": "G:\\Meu Drive\\Only_Guillmon_Prest_de_Contas\\04_Convencao_e_Regulamento\\2026-09_convencao_convencao_only_guillmon.txt",
+      "categoria": "convencao",
+      "confianca": 0.61,
+      "score": 9.1,
+      "sha256": "102adc0e4511754cc03f0c931b364d7f4b37179fe4f1cff5b8f54659989f45d3",
+      "tamanho_bytes": 122,
+      "evidencias": [
+        "pattern:\\bconven[cç][aã]o\\s+(do\\s+)?condom[ií]nio\\b",
+        "pattern:\\bregimento\\s+interno\\b",
+        "pattern:\\bdireitos\\s+e\\s+deveres\\s+dos\\s+cond[oô]minos\\b",
+        "keyword:regimento interno(1)"
+      ]
+    },
+    {
+      "timestamp": "2026-09-28T23:46:35.953241",
+      "nome_original": "previsao_orcamento_2024.txt",
+      "nome_destino": "2026-09_previsao_orcamentaria_previsao_orcamento_2024.txt",
+      "caminho_origem": "G:\\Meu Drive\\Only_Guillmon_Prest_de_Contas\\00_Documentos_In_Natura\\previsao_orcamento_2024.txt",
+      "caminho_destino": "G:\\Meu Drive\\Only_Guillmon_Prest_de_Contas\\05_Previsao_Orcamentaria\\2026-09_previsao_orcamentaria_previsao_orcamento_2024.txt",
+      "categoria": "previsao_orcamentaria",
+      "confianca": 0.64,
+      "score": 9.6,
+      "sha256": "6c7bdf7730d43824c3256449b701f7fa9df1eee4e688b3c3895b109ec6394a91",
+      "tamanho_bytes": 127,
+      "evidencias": [
+        "pattern:\\bprevis[aã]o\\s+or[cç]ament[aá]ria\\b",
+        "pattern:\\bor[cç]ado\\s+(x|vs\\.?)\\s+realizado\\b",
+        "pattern:\\bbalancete\\s+(sint[eé]tico|financeiro|anual)\\b",
+        "pattern:\\bdespesas\\s+ordin[aá]rias\\s+previstas\\b"
+      ]
+    },
+    {
+      "timestamp": "2026-09-28T23:46:35.973136",
+      "nome_original": "documento_sem_contexto.txt",
+      "nome_destino": "2026-09_revisao_pendente_documento_sem_contexto.txt",
+      "caminho_origem": "G:\\Meu Drive\\Only_Guillmon_Prest_de_Contas\\00_Documentos_In_Natura\\documento_sem_contexto.txt",
+      "caminho_destino": "G:\\Meu Drive\\Only_Guillmon_Prest_de_Contas\\99_Revisao_Pendente\\2026-09_revisao_pendente_documento_sem_contexto.txt",
+      "categoria": "revisao_pendente",
+      "confianca": 0.0,
+      "score": 0.0,
+      "sha256": "e455d0a9b5dd7e9cb6bdca8c678c14365f1767a4ac2e10ef8bf0cd8be0038cd2",
+      "tamanho_bytes": 108,
+      "evidencias": []
+    }
+  ],
+  "erros": []
+}

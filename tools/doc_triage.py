@@ -256,25 +256,42 @@ class DocumentTriageEngine:
         original_name = file_path.name
         file_hash = compute_file_hash(file_path)
 
-        # 1. Extração do conteúdo
-        text = self.extract_content(file_path)
+        try:
+            # 1. Extração do conteúdo
+            text = self.extract_content(file_path)
+            
+            if not text or not text.strip():
+                raise ValueError("Texto extraído vazio ou falha no OCR.")
 
-        # 2. Classificação
-        classification = DocumentClassifier.classify_text(text, filename=original_name)
-        target_dir: Path = classification["target_dir"]
+            # 2. Classificação
+            classification = DocumentClassifier.classify_text(text, filename=original_name)
+            target_dir: Path = classification["target_dir"]
+            categoria = classification["categoria"]
+            confianca = classification["confianca"]
+            score = classification["score"]
+            evidencias = classification["evidencias"]
 
-        # 3. Competência temporal
-        ref_date = self.extract_reference_date(text, original_name)
-        date_prefix = ref_date if ref_date else datetime.now().strftime("%Y-%m")
+            # 3. Competência temporal
+            ref_date = self.extract_reference_date(text, original_name)
+            date_prefix = ref_date if ref_date else datetime.now().strftime("%Y-%m")
+            
+        except Exception as e:
+            print(f"[ERRO] Falha ao processar {original_name}: {e}")
+            target_dir = REVISAO_PENDENTE
+            categoria = "rejeitados"
+            confianca = 0.0
+            score = 0.0
+            evidencias = [f"Erro na triagem/OCR: {str(e)}"]
+            date_prefix = datetime.now().strftime("%Y-%m")
 
         # 4. Normalização do nome final
         clean_basename = re.sub(r"[^\w\-\.]", "_", original_name)
-        target_filename = f"{date_prefix}_{classification['categoria']}_{clean_basename}"
+        target_filename = f"{date_prefix}_{categoria}_{clean_basename}"
         target_path = target_dir / target_filename
 
         # Evita sobrescrita se já existir com mesmo nome
         if target_path.exists():
-            target_filename = f"{date_prefix}_{classification['categoria']}_{file_hash[:8]}_{clean_basename}"
+            target_filename = f"{date_prefix}_{categoria}_{file_hash[:8]}_{clean_basename}"
             target_path = target_dir / target_filename
 
         # 5. Movimentação segura do arquivo
@@ -286,12 +303,12 @@ class DocumentTriageEngine:
             "nome_destino": target_filename,
             "caminho_origem": str(file_path),
             "caminho_destino": str(target_path),
-            "categoria": classification["categoria"],
-            "confianca": classification["confianca"],
-            "score": classification["score"],
+            "categoria": categoria,
+            "confianca": confianca,
+            "score": score,
             "sha256": file_hash,
             "tamanho_bytes": target_path.stat().st_size,
-            "evidencias": classification["evidencias"],
+            "evidencias": evidencias,
         }
 
         return record

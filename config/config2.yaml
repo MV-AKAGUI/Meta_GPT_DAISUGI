@@ -1,4 +1,5 @@
 llm:
-  api_type: ollama
-  base_url: http://localhost:11434/api
-  model: deepseek-r1:8b
+  api_type: openai
+  base_url: http://localhost:11434/v1
+  api_key: ollama
+  model: llama3.1:latest

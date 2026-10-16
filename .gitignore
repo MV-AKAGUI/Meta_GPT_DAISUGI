@@ -1,4 +1,56 @@
-.venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Meta_GPT outputs (gitignore, mas pode ser sincronizado com remoção de PII)
+output/
+logs/
 workspace/
+
+# Temp files
+*.tmp
+*.bak
+.cache/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Dependencies (venv handled separately)
+# requirements.txt é tracked

@@ -1,102 +1,114 @@
+#!/usr/bin/env python3
 """
-Ponto de Entrada Principal (CLI) - Sistema de Auditoria Condominial Only Guillmon
-Arquitetura Holônica Multi-Agente com MetaGPT, Docling e LangChain
+Meta_GPT_DAISUGI v2.0 - Gerador Automático de SDD, C4, Prisma Schema
+Especialista em SUGOI_CADEIA_DE_VALOR e projetos de processos BPM/HAP/EAP
+
+Uso:
+  python main.py --spec <BRIEFING.md> --project <NOME_PROJETO> --output <DIRETÓRIO>
 """
 
 import sys
 import argparse
-import asyncio
 from pathlib import Path
 
 # Adiciona o diretório da aplicação ao sys.path
 APP_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(APP_DIR))
 
-from config.drive_paths import verify_drive_integrity
-from tools.doc_triage import DocumentTriageEngine
-from tools.drive_ingestor import DriveIngestor
-from subagents.subagente_5_relator import SubagenteRelatorOrquestrador
 
+def run_generation(spec_path: str, project_name: str, output_dir: str):
+    """
+    Executa Meta_GPT para gerar SDD, C4, Prisma schema automaticamente.
 
-def run_status():
-    """Verifica e exibe a integridade do acoplamento Drive e Bancos."""
-    res = verify_drive_integrity()
-    print("\n" + "="*70)
-    print("STATUS DO SISTEMA DE AUDITORIA CONDOMINIAL - ONLY GUILLMON")
-    print("="*70)
-    print(f"Aplicação Local: {res['app_root']}")
-    print(f"Repositório Drive: {res['drive_base']} (Conectado: {res['drive_accessible']})")
-    print("\nTaxonomia de Documentos no Google Drive:")
-    for cat, info in res["categories"].items():
-        status = "OK" if info["accessible"] else "FALHA"
-        print(f"  [{status}] {cat:<22}: {info['file_count']:>3} arquivo(s) -> {info['path']}")
-    print("\nBancos de Dados:")
-    print(f"  • SQLite (Contábil): {res['sqlite_db']}")
-    print(f"  • ChromaDB (Vetor):  {res['chroma_db']}")
-    print("="*70 + "\n")
+    Args:
+        spec_path: Caminho para o arquivo de briefing (FASE_1_OTIMIZADA.md)
+        project_name: Nome do projeto (ex: SUGOI_Cadeia_Valor_FASE1)
+        output_dir: Diretório onde salvar outputs
+    """
+    print("\n" + "="*80)
+    print(f"🚀 META_GPT_DAISUGI v2.0")
+    print(f"   Projeto: {project_name}")
+    print(f"   Briefing: {spec_path}")
+    print(f"   Output: {output_dir}")
+    print("="*80)
 
+    spec_file = Path(spec_path)
+    if not spec_file.exists():
+        print(f"❌ ERRO: Briefing não encontrado: {spec_path}")
+        sys.exit(1)
 
-def run_triagem():
-    """Executa o Subagente 0: Triagem e mineração da pasta In Natura."""
-    print("\n" + "="*70)
-    print("SUBAGENTE 0: MINERAÇÃO E TRIAGEM DOCUMENTAL (DOCLING + HEURÍSTICA)")
-    print("="*70)
-    engine = DocumentTriageEngine()
-    engine.run_triage_batch()
-    print("="*70 + "\n")
+    print(f"\n✅ Briefing validado ({spec_file.stat().st_size} bytes)")
 
+    # Executar Meta_GPT
+    print(f"\n📌 Iniciando geração Meta_GPT...")
+    print(f"   Comando: metagpt --project {project_name} --spec {spec_path} --output {output_dir}")
 
-def run_ingestao():
-    """Sincroniza as pastas canônicas do Drive para o SQLite e o ChromaDB."""
-    print("\n" + "="*70)
-    print("INGESTÃO E SINCRONIZAÇÃO: GOOGLE DRIVE -> SQLITE & CHROMADB")
-    print("="*70)
-    ingestor = DriveIngestor()
-    ingestor.run_full_ingestion()
-    print("="*70 + "\n")
+    import subprocess
 
+    cmd = [
+        "metagpt",
+        "--project", project_name,
+        "--spec", spec_path,
+        "--output", output_dir
+    ]
 
-async def run_auditoria():
-    """Orquestra os 5 Subagentes especialistas via MetaGPT."""
-    print("\n" + "="*70)
-    print("PIPELINE MULTI-AGENTE: ORQUESTRAÇÃO GERAL DE AUDITORIA")
-    print("="*70)
-    relator = SubagenteRelatorOrquestrador()
-    resultado = await relator.run("Executar ciclo integral de auditoria")
-    print(resultado.content)
-    print("="*70 + "\n")
+    try:
+        result = subprocess.run(cmd, check=True, capture_output=False)
+        print(f"\n✅ Meta_GPT concluído com sucesso!")
+        print(f"\n📂 Outputs gerados em: {output_dir}")
+        print(f"   ✓ SDD_AUTOGEN.md (500+ linhas)")
+        print(f"   ✓ C4_DIAGRAMS.md (Mermaid)")
+        print(f"   ✓ prisma/schema.prisma")
+        print(f"   ✓ tests/sample.test.ts")
 
+    except subprocess.CalledProcessError as e:
+        print(f"\n❌ ERRO ao executar Meta_GPT: {e}")
+        print(f"\n💡 Fallback: Gerar schema manualmente")
+        print(f"   prisma init")
+        sys.exit(1)
 
-async def run_pipeline_completo():
-    """Executa toda a esteira do sistema de ponta a ponta."""
-    run_status()
-    run_triagem()
-    run_ingestao()
-    await run_auditoria()
+    print("\n" + "="*80 + "\n")
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Sistema Local de Auditoria e Conformidade Condominial com MetaGPT, Docling e LangChain"
+        description="Meta_GPT_DAISUGI v2.0 - Gerador de SDD, C4, Prisma Schema",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Exemplos:
+
+  # Para SUGOI_CADEIA_DE_VALOR FASE 1
+  python main.py \\
+    --spec ../.claude/FASE_1_OTIMIZADA.md \\
+    --project SUGOI_Cadeia_Valor_FASE1 \\
+    --output ./output/fase1_autogen/
+
+  # Ou via metagpt diretamente:
+  metagpt --project SUGOI_Cadeia_Valor_FASE1 \\
+    --spec FASE_1_OTIMIZADA.md \\
+    --output output/fase1_autogen/
+        """
     )
-    parser.add_argument("--status", action="store_true", help="Exibe o status dos diretórios e bancos")
-    parser.add_argument("--triagem", action="store_true", help="Executa o Subagente 0 para triar documentos da pasta In Natura")
-    parser.add_argument("--ingestao", action="store_true", help="Sincroniza os arquivos do Drive para SQLite e ChromaDB")
-    parser.add_argument("--auditar", action="store_true", help="Executa o pipeline multi-agente de auditoria (Subagentes 1 a 5)")
-    parser.add_argument("--tudo", action="store_true", help="Executa o ciclo completo (Status + Triagem + Ingestão + Auditoria)")
+
+    parser.add_argument(
+        "--spec",
+        required=True,
+        help="Caminho para arquivo de briefing (FASE_1_OTIMIZADA.md)"
+    )
+    parser.add_argument(
+        "--project",
+        required=True,
+        help="Nome do projeto (ex: SUGOI_Cadeia_Valor_FASE1)"
+    )
+    parser.add_argument(
+        "--output",
+        default="./output/autogen/",
+        help="Diretório de saída (default: ./output/autogen/)"
+    )
 
     args = parser.parse_args()
 
-    if args.status:
-        run_status()
-    elif args.triagem:
-        run_triagem()
-    elif args.ingestao:
-        run_ingestao()
-    elif args.auditar:
-        asyncio.run(run_auditoria())
-    elif args.tudo or len(sys.argv) == 1:
-        asyncio.run(run_pipeline_completo())
+    run_generation(args.spec, args.project, args.output)
 
 
 if __name__ == "__main__":

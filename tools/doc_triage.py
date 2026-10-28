@@ -16,6 +16,7 @@ from typing import Dict, Any, List, Optional
 # Importação dos caminhos centrais
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from tools import laya_decisor
 from config.drive_paths import (
     IN_NATURA,
     REVISAO_PENDENTE,
@@ -163,6 +164,7 @@ class DocumentClassifier:
         # Limiar de confiança (mínimo de pontuação para não cair em revisão pendente)
         confidence = min(round(best_score / 15.0, 2), 1.0) if best_score > 0 else 0.0
 
+        evidencias = matched_details.get(best_category, [])
         if best_score < 4.0:
             category_result = "revisao_pendente"
             target_dir = REVISAO_PENDENTE
@@ -170,13 +172,25 @@ class DocumentClassifier:
             category_result = best_category
             target_dir = cls.CATEGORIES[best_category]["target_dir"]
 
+        # Laya complementa onde as palavras-chave não bastam: só resgata documentos que iriam para
+        # revisão pendente, e só no modo ativo com confiança alta (LAYA_LIMIAR).
+        laya_texto = f"Arquivo: {filename}\n\n{text[:3000]}"
+        laya_opcoes = {k: ", ".join(v["keywords"]) for k, v in cls.CATEGORIES.items()}
+        laya_instrucao = "A que tipo de documento de condomínio este arquivo pertence?"
+        if category_result == "revisao_pendente":
+            escolha = laya_decisor.escolher("metagpt.triagem", laya_texto, laya_opcoes, laya_instrucao)
+            if escolha:
+                category_result, target_dir = escolha, cls.CATEGORIES[escolha]["target_dir"]
+                evidencias = [f"laya:{escolha}"]
+        laya_decisor.sombra_escolha("metagpt.triagem", laya_texto, laya_opcoes, laya_instrucao, category_result)
+
         return {
             "categoria": category_result,
             "target_dir": target_dir,
             "score": best_score,
             "confianca": confidence,
             "scores_completos": scores,
-            "evidencias": matched_details.get(best_category, [])
+            "evidencias": evidencias
         }
 
 

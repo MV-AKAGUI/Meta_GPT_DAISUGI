@@ -17,6 +17,7 @@ from langchain_text_splitters import MarkdownHeaderTextSplitter, RecursiveCharac
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config.drive_paths import CHROMA_DB_PATH
+from tools import laya_decisor
 
 
 # Normas fundamentais pré-carregadas (Código Civil e Jurisprudência STJ sobre Prestação de Contas)
@@ -201,6 +202,13 @@ class CondoRAGDatabase:
                     "metadata": meta,
                     "score_similaridade": round(1.0 - dist, 4) if dist is not None else 1.0
                 })
+
+        # Laya em sombra: julga se cada trecho responde à consulta, sem filtrar nada ainda.
+        # Ao promover (evals/promover.py), o veredito passa a poder descartar trechos irrelevantes.
+        for item in extracted:
+            laya_decisor.sombra_sim_ou_nao(
+                "metagpt.rag", f"Consulta: {query}\n\nTrecho: {item['texto'][:1500]}",
+                "Este trecho contém informação que responde à consulta?", item["score_similaridade"])
 
         return extracted
 
